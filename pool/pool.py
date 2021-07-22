@@ -11,9 +11,9 @@ import os
 import yaml
 
 from blspy import AugSchemeMPL, G1Element
-from chia.consensus.block_rewards import calculate_pool_reward
-from chia.pools.pool_wallet_info import PoolState, PoolSingletonState
-from chia.protocols.pool_protocol import (
+from spare.consensus.block_rewards import calculate_pool_reward
+from spare.pools.pool_wallet_info import PoolState, PoolSingletonState
+from spare.protocols.pool_protocol import (
     PoolErrorCode,
     PostPartialRequest,
     PostPartialResponse,
@@ -23,24 +23,24 @@ from chia.protocols.pool_protocol import (
     PutFarmerResponse,
     POOL_PROTOCOL_VERSION,
 )
-from chia.rpc.wallet_rpc_client import WalletRpcClient
-from chia.types.blockchain_format.coin import Coin
-from chia.types.coin_record import CoinRecord
-from chia.types.coin_solution import CoinSolution
-from chia.util.bech32m import decode_puzzle_hash
-from chia.consensus.constants import ConsensusConstants
-from chia.util.ints import uint8, uint16, uint32, uint64
-from chia.util.byte_types import hexstr_to_bytes
-from chia.util.default_root import DEFAULT_ROOT_PATH
-from chia.rpc.full_node_rpc_client import FullNodeRpcClient
-from chia.full_node.signage_point import SignagePoint
-from chia.types.end_of_slot_bundle import EndOfSubSlotBundle
-from chia.types.blockchain_format.sized_bytes import bytes32
-from chia.consensus.pot_iterations import calculate_iterations_quality
-from chia.util.lru_cache import LRUCache
-from chia.util.chia_logging import initialize_logging
-from chia.wallet.transaction_record import TransactionRecord
-from chia.pools.pool_puzzles import (
+from spare.rpc.wallet_rpc_client import WalletRpcClient
+from spare.types.blockchain_format.coin import Coin
+from spare.types.coin_record import CoinRecord
+from spare.types.coin_solution import CoinSolution
+from spare.util.bech32m import decode_puzzle_hash
+from spare.consensus.constants import ConsensusConstants
+from spare.util.ints import uint8, uint16, uint32, uint64
+from spare.util.byte_types import hexstr_to_bytes
+from spare.util.default_root import DEFAULT_ROOT_PATH
+from spare.rpc.full_node_rpc_client import FullNodeRpcClient
+from spare.full_node.signage_point import SignagePoint
+from spare.types.end_of_slot_bundle import EndOfSubSlotBundle
+from spare.types.blockchain_format.sized_bytes import bytes32
+from spare.consensus.pot_iterations import calculate_iterations_quality
+from spare.util.lru_cache import LRUCache
+from spare.util.spare_logging import initialize_logging
+from spare.wallet.transaction_record import TransactionRecord
+from spare.pools.pool_puzzles import (
     get_most_recent_singleton_coin_from_coin_solution,
     get_delayed_puz_info_from_launcher_spend,
     launcher_id_to_p2_puzzle_hash,
@@ -382,7 +382,7 @@ class Pool:
                 pool_coin_amount = int(total_amount_claimed * self.pool_fee)
                 amount_to_distribute = total_amount_claimed - pool_coin_amount
 
-                if total_amount_claimed < calculate_pool_reward(uint32(1)):  # 1.75 XCH
+                if total_amount_claimed < calculate_pool_reward(uint32(1)):  # 1.75 SPARE
                     self.log.info(f"Do not have enough funds to distribute: {total_amount_claimed}, skipping payout")
                     continue
 
@@ -391,7 +391,7 @@ class Pool:
                 self.log.info(f"Total amount to distribute: {amount_to_distribute  / (10 ** 12)}")
 
                 async with self.store.lock:
-                    # Get the points of each farmer, as well as payout instructions. Here a chia address is used,
+                    # Get the points of each farmer, as well as payout instructions. Here a spare address is used,
                     # but other blockchain addresses can also be used.
                     points_and_ph: List[
                         Tuple[uint64, bytes]
@@ -595,7 +595,7 @@ class Pool:
             if len(hexstr_to_bytes(request.payload.payout_instructions)) != 32:
                 return error_dict(
                     PoolErrorCode.INVALID_PAYOUT_INSTRUCTIONS,
-                    f"Payout instructions must be an xch address for this pool.",
+                    f"Payout instructions must be an SPARE address for this pool.",
                 )
 
             if not AugSchemeMPL.verify(last_state.owner_pubkey, request.payload.get_hash(), request.signature):
@@ -695,7 +695,7 @@ class Pool:
         self.farmer_update_blocked.add(launcher_id)
         asyncio.create_task(update_farmer_later())
 
-        # TODO Fix chia-blockchain's Streamable implementation to support Optional in `from_json_dict`, then use
+        # TODO Fix spare-blockchain's Streamable implementation to support Optional in `from_json_dict`, then use
         # PutFarmerResponse here and in the trace up.
         return response_dict
 

@@ -2,10 +2,10 @@ from abc import ABC, abstractmethod
 import asyncio
 from typing import Optional, Set, List, Tuple
 
-from chia.pools.pool_wallet_info import PoolState
-from chia.types.blockchain_format.sized_bytes import bytes32
-from chia.types.coin_solution import CoinSolution
-from chia.util.ints import uint64
+from spare.pools.pool_wallet_info import PoolState
+from spare.types.blockchain_format.sized_bytes import bytes32
+from spare.types.coin_solution import CoinSolution
+from spare.util.ints import uint64
 
 from ..record import FarmerRecord
 from ..util import RequestMetadata

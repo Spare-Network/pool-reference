@@ -3,10 +3,10 @@ from typing import Optional, Set, List, Tuple, Dict
 
 import aiosqlite
 from blspy import G1Element
-from chia.pools.pool_wallet_info import PoolState
-from chia.types.blockchain_format.sized_bytes import bytes32
-from chia.types.coin_solution import CoinSolution
-from chia.util.ints import uint64
+from spare.pools.pool_wallet_info import PoolState
+from spare.types.blockchain_format.sized_bytes import bytes32
+from spare.types.coin_solution import CoinSolution
+from spare.util.ints import uint64
 
 from .abstract import AbstractPoolStore
 from ..record import FarmerRecord

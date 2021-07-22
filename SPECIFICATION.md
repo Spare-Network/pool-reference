@@ -1,6 +1,6 @@
-# Chia Pool Protocol 1.0
+# Spare Pool Protocol 1.0
 
-This is the initial version of the Chia Pool Protocol. It is designed to be simple, and to be extended later.
+This is the initial version of the Spare Pool Protocol. It is designed to be simple, and to be extended later.
 It relies on farmers having smart coins (referred to as Pool NFTs in GUI + CLI) which allow them to switch between pools
 by making transactions on the blockchain. Furthermore, it decreases the reliance on pools for block production, since
 the protocol only handles distribution of rewards, and it protects against pools or farmers acting maliciously.
@@ -14,7 +14,7 @@ The Pool server must check that the `pool_contract_puzzle_hash` a.k.a. `p2_singl
 puzzle that they expect. Otherwise, the pool has no guarantee that users will not attempt to claim block rewards
 for themselves, and immediately leave the pool, something that the provided smart contract prevents.
 
-The Chia client must only connect to the pool configuration URL via HTTPS over TLS >= 1.2. This is to
+The Spare client must only connect to the pool configuration URL via HTTPS over TLS >= 1.2. This is to
 prevent session hijacking, leading to user funds being stolen.
 
 
@@ -22,7 +22,7 @@ prevent session hijacking, leading to user funds being stolen.
 
 The parties involved in the pool protocol are the pool operator and farmers. Each farmer is running
 a farmer process, and any number of harvester processes connected to that farmer process. The full node can either be
-run by the farmer (the default in the Chia GUI application), or run by the pool operator. If the farmer does not want
+run by the farmer (the default in the Spare GUI application), or run by the pool operator. If the farmer does not want
 to run a full node, they can configure their node to connect to a remote full node.
 
 A pool operator can support any number of farmers.
@@ -99,7 +99,7 @@ message_hash = sha256(serialized_payload)
 ```
 
 The serialized payload must follow the `Streamable` standard defined
-[here](https://github.com/Chia-Network/chia-blockchain/blob/main/chia/util/streamable.py).
+[here](https://github.com/Spare-Network/spare-blockchain/blob/main/spare/util/streamable.py).
 
 ## Pool URL
 The pool URL is the url that farmers use to connect to the pool. The subdomains, port, and path are optional. The client
@@ -117,9 +117,9 @@ blockchain. Warning to client implementers: if displaying any of this informatio
 scripts and JS injections. It returns a JSON response with the following data:
 ```json
 {
-    "description": "(example) The Reference Pool allows you to pool with low fees, paying out daily using Chia.",
+    "description": "(example) The Reference Pool allows you to pool with low fees, paying out daily using Spare.",
     "fee": 0.01,
-    "logo_url": "https://www.chia.net/img/chia_logo.svg",
+    "logo_url": "https://pbs.twimg.com/profile_images/1403888233721696259/OqoY2yag_400x400.jpg",
     "minimum_difficulty": 10,
     "name": "The Reference Pool",
     "protocol_version": 1,
@@ -252,7 +252,7 @@ requests made with outdated `authentication_keys`. These key can be changed usin
 the owner key.
 
 #### payload.payout_instructions
-These are the instructions for how the farmer wants to get paid. By default this will be an XCH address, but it can
+These are the instructions for how the farmer wants to get paid. By default this will be an SPARE address, but it can
 be set to any string with a size of less than 1024 characters, so it can represent another blockchain or payment
 system identifier.
 
@@ -272,7 +272,7 @@ sha256(PostFarmerPayload)
 signed by the private key of the `owner_public_key` using the Augmented Scheme in the BLS IETF spec.
 
 See the [streamable](#signature-validation) class `PostFarmerPayload` in the
-[pool protocol](https://github.com/Chia-Network/chia-blockchain/blob/main/chia/protocols/pool_protocol.py)
+[pool protocol](https://github.com/Spare-Network/spare-blockchain/blob/main/spare/protocols/pool_protocol.py)
 and [Farmer authentication](#farmer-authentication) for the specification of `authentication_token`.
 
 ## PUT /farmer
@@ -297,7 +297,7 @@ provided with the key/value pairs are used to update the existing values on the 
 `launcher_id`, are optional but there must be at least one of them. 
 
 See the [streamable](#signature-validation) class `PutFarmerPayload` in the
-[pool protocol](https://github.com/Chia-Network/chia-blockchain/blob/main/chia/protocols/pool_protocol.py) for details
+[pool protocol](https://github.com/Spare-Network/spare-blockchain/blob/main/spare/protocols/pool_protocol.py) for details
 and [Farmer authentication](#farmer-authentication) for the specification of
 `authentication_token`.
 
@@ -367,7 +367,7 @@ The unique identifier of the farmer's singleton, see [Farmer identification](#fa
 See [Farmer authentication](#farmer-authentication) for the specification of `authentication_token`.
 
 #### payload.proof_of_space
-The proof of space in chia-blockchain format.
+The proof of space in spare-blockchain format.
 
 #### payload.proof_of_space.challenge
 The challenge of the proof of space, computed from the signage point or end of subslot.
@@ -407,7 +407,7 @@ signed by the private keys of the following keys using the Augmented Scheme in t
 2. `authentication_public_key`
 
 See the [streamable](#signature-validation) class `PostPartialPayload` in the
-[pool protocol](https://github.com/Chia-Network/chia-blockchain/blob/main/chia/protocols/pool_protocol.py) for details
+[pool protocol](https://github.com/Spare-Network/spare-blockchain/blob/main/spare/protocols/pool_protocol.py) for details
 and [Farmer authentication](#farmer-authentication) for the specification of
 `authentication_token`.
 

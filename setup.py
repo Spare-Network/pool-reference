@@ -12,14 +12,14 @@ def read(fname):
 
 
 setup(
-    name="chia-pool-reference",
+    name="spare-pool-reference",
     version="1.2",
-    author="Mariano Sorgente",
-    author_email="mariano@chia.net",
-    description=("A reference pool for the Chia blockchain."),
+    author="Uncle Tom",
+    author_email="tom@sparecoin.org",
+    description=("A reference pool for the Spare blockchain."),
     license="Apache",
     packages=setuptools.find_packages(),
-    install_requires=["wheel", "chia-blockchain", "Flask"],
+    install_requires=["wheel", "spare-blockchain", "Flask"],
     long_description=read("README.md"),
     classifiers=[
         "Development Status :: 3 - Alpha",

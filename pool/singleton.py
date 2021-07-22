@@ -2,8 +2,8 @@ from typing import List, Optional, Tuple
 import logging
 
 from blspy import G2Element
-from chia.consensus.coinbase import pool_parent_id
-from chia.pools.pool_puzzles import (
+from spare.consensus.coinbase import pool_parent_id
+from spare.pools.pool_puzzles import (
     create_absorb_spend,
     solution_to_extra_data,
     get_most_recent_singleton_coin_from_coin_solution,
@@ -11,16 +11,16 @@ from chia.pools.pool_puzzles import (
     create_full_puzzle,
     get_delayed_puz_info_from_launcher_spend,
 )
-from chia.pools.pool_wallet import PoolSingletonState
-from chia.pools.pool_wallet_info import PoolState
-from chia.rpc.full_node_rpc_client import FullNodeRpcClient
-from chia.types.blockchain_format.coin import Coin
-from chia.types.blockchain_format.program import Program, SerializedProgram
-from chia.types.blockchain_format.sized_bytes import bytes32
-from chia.types.coin_record import CoinRecord
-from chia.types.coin_solution import CoinSolution
-from chia.types.spend_bundle import SpendBundle
-from chia.util.ints import uint32, uint64
+from spare.pools.pool_wallet import PoolSingletonState
+from spare.pools.pool_wallet_info import PoolState
+from spare.rpc.full_node_rpc_client import FullNodeRpcClient
+from spare.types.blockchain_format.coin import Coin
+from spare.types.blockchain_format.program import Program, SerializedProgram
+from spare.types.blockchain_format.sized_bytes import bytes32
+from spare.types.coin_record import CoinRecord
+from spare.types.coin_solution import CoinSolution
+from spare.types.spend_bundle import SpendBundle
+from spare.util.ints import uint32, uint64
 
 from .record import FarmerRecord
 
@@ -185,7 +185,7 @@ async def create_absorb_transaction(
         # TODO(pool): If you want to add a fee, you should do the following:
         #  - only absorb one reward at a time
         #  - spend the coin that you are receiving in the same spend bundle that it is created
-        #  - create an output with slightly less XCH, to yourself. for example, 1.7499 XCH
+        #  - create an output with slightly less SPARE, to yourself. for example, 1.7499 SPARE
         #  - The remaining value will automatically be used as a fee
 
     if len(all_spends) == 0:

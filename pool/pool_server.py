@@ -7,7 +7,7 @@ from typing import Dict, Callable, Optional
 import aiohttp
 from blspy import AugSchemeMPL, G2Element
 from aiohttp import web
-from chia.protocols.pool_protocol import (
+from spare.protocols.pool_protocol import (
     PoolErrorCode,
     GetFarmerResponse,
     GetPoolInfoResponse,
@@ -18,15 +18,15 @@ from chia.protocols.pool_protocol import (
     POOL_PROTOCOL_VERSION,
     AuthenticationPayload,
 )
-from chia.types.blockchain_format.sized_bytes import bytes32
-from chia.util.byte_types import hexstr_to_bytes
-from chia.util.hash import std_hash
-from chia.consensus.default_constants import DEFAULT_CONSTANTS
-from chia.consensus.constants import ConsensusConstants
-from chia.util.json_util import obj_to_response
-from chia.util.ints import uint8, uint64, uint32
-from chia.util.default_root import DEFAULT_ROOT_PATH
-from chia.util.config import load_config
+from spare.types.blockchain_format.sized_bytes import bytes32
+from spare.util.byte_types import hexstr_to_bytes
+from spare.util.hash import std_hash
+from spare.consensus.default_constants import DEFAULT_CONSTANTS
+from spare.consensus.constants import ConsensusConstants
+from spare.util.json_util import obj_to_response
+from spare.util.ints import uint8, uint64, uint32
+from spare.util.default_root import DEFAULT_ROOT_PATH
+from spare.util.config import load_config
 
 from .record import FarmerRecord
 from .pool import Pool
@@ -80,7 +80,7 @@ class PoolServer:
         return inner
 
     async def index(self, _) -> web.Response:
-        return web.Response(text="Chia reference pool")
+        return web.Response(text="Spare reference pool")
 
     async def get_pool_info(self, _) -> web.Response:
         res: GetPoolInfoResponse = GetPoolInfoResponse(
